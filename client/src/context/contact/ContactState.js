@@ -1,7 +1,7 @@
-import React, { useReducer } from "react";
-import uuid from "uuid";
-import ContactContext from "./contactContext";
-import contactReducer from "./contactReducer";
+import React, { useReducer } from 'react';
+import uuid from 'uuid';
+import ContactContext from './contactContext';
+import contactReducer from './contactReducer';
 import {
   ADD_CONTACT,
   DELETE_CONTACT,
@@ -10,27 +10,28 @@ import {
   UPDATE_CONTACT,
   FILTER_CONTACTS,
   CLEAR_FILTER
-} from "../types";
+} from '../types';
 
 const ContactState = props => {
   const initialState = {
     contacts: [
       {
         id: 1,
-        name: "Kirin",
-        email: "kirin@gmail.com",
-        phone: "0944343436",
-        type: "professional"
+        name: 'Kirin',
+        email: 'kirin@gmail.com',
+        phone: '0944343436',
+        type: 'professional'
       },
       {
         id: 2,
-        name: "Dung",
-        phone: "0934344343",
-        email: "dung@gmail.com",
-        type: "personal"
+        name: 'Dung',
+        phone: '0934344343',
+        email: 'dung@gmail.com',
+        type: 'personal'
       }
     ],
-    current: null
+    current: null,
+    filtered: null
   };
   const [state, dispatch] = useReducer(contactReducer, initialState);
 
@@ -51,25 +52,36 @@ const ContactState = props => {
   };
 
   //Clear Current Contact
+
+  //Update Contact
+  const updateContact = contact => {
+    dispatch({ type: UPDATE_CONTACT, payload: contact });
+  };
+
+  //Filter Contact
+  const filterContacts = text => {
+    dispatch({ type: FILTER_CONTACTS, payload: text });
+  };
   const clearCurrent = () => {
     dispatch({ type: CLEAR_CURRENT });
   };
-
-  //Update Contact
-
-  //Filter Contact
-
   //Clear Filter
-
+  const clearFilter = () => {
+    dispatch({ type: CLEAR_FILTER });
+  };
   return (
     <ContactContext.Provider
       value={{
         contacts: state.contacts,
         current: state.current,
+        filtered: state.filtered,
         addContact,
         deleteContact,
         setCurrent,
-        clearCurrent
+        clearCurrent,
+        updateContact,
+        filterContacts,
+        clearFilter
       }}
     >
       {props.children}
