@@ -5,15 +5,16 @@ import ContactContext from '../../context/contact/contactContext';
 const ContactItem = ({ contact }) => {
   const contactContext = useContext(ContactContext);
 
-  const { id, name, email, phone, type } = contact;
+  const { _id, name, email, phone, type } = contact;
   const { deleteContact, setCurrent, clearCurrent } = contactContext;
 
   const onDelete = () => {
-    deleteContact(id);
+    deleteContact(_id);
     clearCurrent();
   };
   return (
     <div className='card bg-light'>
+      <input type='hidden' name='hid' value={_id} />
       <h3 className='text-primary text-left'>
         {name}{' '}
         <span
